@@ -2,28 +2,36 @@
 #include <stdlib.h>
 #include <time.h>
 /**
- * main - Print numbers from 012 to 789
- *
- * Return: Always 0 (Success)
- */
-int main(void)
+* main - Entry point
+*
+* Return: Always 0 (Success)
+*/
+int main (void)
 {
-int k, m, n;
-for (k = 0; k <= 9; k++)
+int x, y, z;
+for (x = '0'; x <= '7'; x++)
 {
-for (m = k + 1; m <= 9; m++)
-for (n = m + 1; n <= 9; n++)
+for (y = '1'; y <= '8'; y++)
 {
-putchar(k + '0');
-putchar(m + '0');
-putchar(n + '0');
+for (z = '2'; z <= '9'; z++)
+{
+if (!(x == y) && !(y == z) && !(x == z) && x < y && y < z)
+{
+putchar(x);
+putchar(y);
+putchar(z);
+}
+if (!(x == '7' && y == '8' &&  z == '9'))
+{
+if (!(x == y) && !(y == z) && !(x == z) && x < y && y < z)
+{
 putchar(',');
-			putchar(' ');
-} 
-if (k < 7)
-{
 putchar(' ');
 }
 }
+}
+}
+}
+putchar('\n');
 return (0);
 }
