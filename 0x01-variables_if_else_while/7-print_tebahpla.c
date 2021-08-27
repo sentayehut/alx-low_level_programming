@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 /**
- * reverse alphabet 
+ * main - Print all lowercase letters in reverse using only putchar
  *
  * Return: Always 0 (Success)
  */
