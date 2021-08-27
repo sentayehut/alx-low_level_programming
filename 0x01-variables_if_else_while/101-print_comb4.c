@@ -22,7 +22,6 @@ putchar(',');
 } 
 if (k < 7)
 {
-putchar(',');
 putchar(' ');
 }
 }
