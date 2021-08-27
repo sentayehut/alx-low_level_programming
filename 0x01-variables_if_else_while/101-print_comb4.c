@@ -6,7 +6,7 @@
 *
 * Return: Always 0 (Success)
 */
-int main (void)
+int main(void)
 {
 int x, y, z;
 for (x = '0'; x <= '7'; x++)
