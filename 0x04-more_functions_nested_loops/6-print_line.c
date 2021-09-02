@@ -17,4 +17,5 @@ void print_line(int n)
 		if (b != 0)
 			_putchar(a);
 	}
-	
+	_putchar('\n');
+}
