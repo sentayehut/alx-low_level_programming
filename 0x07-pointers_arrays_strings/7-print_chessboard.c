@@ -1,12 +1,10 @@
 #include "main.h"
 /**
- * print_chessboard - print the chessboard
- *
- * @a: pointer to array
- *
- * Description: this print the chessboard
- * Return: a char
- */
+  * print_chessboard - Print the chessboard
+  * @a: array of pieces
+  *
+  * Return: Nothing.
+  */
 void print_chessboard(char (*a)[8])
 {
 	int b, c;
@@ -17,6 +15,7 @@ void print_chessboard(char (*a)[8])
 		{
 			_putchar(a[b][c]);
 		}
+
 		_putchar('\n');
 	}
 }
