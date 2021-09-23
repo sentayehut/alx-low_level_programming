@@ -1,7 +1,4 @@
 #include "main.h"
-#include <stdlib.h>
-#include <stdio.h>
-
 /**
  * main - multiplies two positive numbers
  * @argc: argument count
@@ -63,11 +60,6 @@ void multiply(char *f, char *s)
 	for (i = 0; i < total; i++)
 		printf("%i", ptr[i]);
 	printf("\n");
-
-	for (i = 0; i < total; ptr++)
-		free(ptr);
-
-	free(ptr);
 }
 /**
  * onlyNumbers - determines if string has only numbers

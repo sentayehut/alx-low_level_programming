@@ -15,5 +15,7 @@ int _strlen(char *s);
 char *_memset(char *s, char b, unsigned int n);
 void *_calloc(unsigned int nmemb, unsigned int size);
 int _strlen(char *s);
-
+int _strlen(char *);
+void multiply(char* s1, char* s2);
+char *_memcpy(char *dest, char *src, unsigned int n);
 #endif
