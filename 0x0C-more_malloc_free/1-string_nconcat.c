@@ -12,40 +12,41 @@
  */
 char *string_nconcat(char *s1, char *s2, unsigned int n)
 {
-	/* unsigned int var because we need to compare with n */
-	char *strings;
-	unsigned int lengths1, lengths2;
+	char *p;
+	int strlen1, i, c;
 
-	/* task condition if NULL passed, should be treated as empty string */
-	/* same condition of project 0x0B 2-str.concatena */
 	if (s1 == NULL)
 		s1 = "";
 	if (s2 == NULL)
 		s2 = "";
-	/* I go through both strings so I can find their length */
-	for (lengths1 = 0; s1[lengths1] != '\0'; lengths1++)
-	{
-	}
-	for (lengths2 = 0; s2[lengths2] != '\0'; lengths2++)
-	{
-	}
-	/* Now that I know the length of s2 I can compare it with n */
-	/* and set the task condition */
-	if (n > lengths2)
-		n = lengths2;
-	/* now set the malloc with the lenghts */
-	/* n is now equal to lengths2 */
-	/* plus 1 because we need to save space for the last '\0' of strings */
-	strings = malloc((lengths1 + n + 1) * sizeof(char));
-	if (strings == NULL)
+
+	strlen1 = (unsigned int)_strlen(s1);
+	p = malloc((strlen1 + n + 1) * sizeof(char));
+	if (p == NULL)
 		return (NULL);
-	/* now we add the content of strings to new strings pointer */
-	for (lengths1 = 0; s1[lengths1] != '\0'; lengths1++)
-		strings[lengths1] = s1[lengths1];
-	/* iterate while lengths2 < n so we print only school */
-	/* lenghts1 keeps counting while we go trough s2 */
-	for (lengths2 = 0; lengths2 < n; lengths2++, lengths1++)
-	strings[lengths1] = s2[lengths2];
-	strings[lengths1] = '\0';
-	return (strings);
+	for (i = 0, c = 0; i < (strlen1 + n); i++)
+	{
+		if (i < strlen1)
+			p[i] = s1[i];
+		else
+			p[i] = s2[c++];
+	}
+	p[i] = '\0';
+
+	return (p);
+}
+
+/**
+ * _strlen - find length of string
+ * @s: string
+ * Return: length of string
+ */
+
+int _strlen(char *s)
+{
+	int i;
+
+	for (i = 0; s[i] != '\0'; i++)
+		;
+	return (i);
 }
