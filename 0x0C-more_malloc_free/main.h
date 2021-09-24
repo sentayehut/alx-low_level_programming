@@ -16,6 +16,11 @@ void _print(char *str, int l);
 char *mul(char n, char *num, int num_index, char *dest, int dest_index);
 int check_for_digits(char **av);
 void init(char *str, int l);
+int *array_range(int min, int max);
+int onlyNumbers(char *c);
+int _strlen(char *s);
+void multiply(char *f, char *s);
+char *_memset(char *s, char b, unsigned int n);
 
 
 #endif
