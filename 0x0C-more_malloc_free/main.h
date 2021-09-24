@@ -16,15 +16,6 @@ void _print(char *str, int l);
 char *mul(char n, char *num, int num_index, char *dest, int dest_index);
 int check_for_digits(char **av);
 void init(char *str, int l);
-int find_len(char *str);
-void _puts(char *str);
-int _atoi(const char *s);
-void print_int(unsigned long int n);
-int main(int argc, char const *argv[]);
-void multiply(char *f, char *s);
-int onlyNumbers(char *c);
-int _strlen(char *s);
-char *_memset(char *s, char b, unsigned int n);
-void *_calloc(unsigned int nmemb, unsigned int size);
+
 
 #endif
