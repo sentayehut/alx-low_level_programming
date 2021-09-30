@@ -13,7 +13,14 @@ typedef struct format_handler
 {
 	char format;
 	void (*printer)(va_list *args_list);
-} fh;
+}
+ typedef struct printer
+{
+	char *symbol;
+	void (*print)(va_list arg);
+
+} printer_t;
+fh;
 
 int _putchar(char c);
 int sum_them_all(const unsigned int n, ...);
