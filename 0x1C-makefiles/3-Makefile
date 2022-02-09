@@ -4,7 +4,7 @@ CC = gcc
 RM = rm -f
 
 OBJ = $(SRC:.c=.o)
-SRC = main.c holberton.c
+SRC = main.c school.c
 
 all: $(OBJ)
 	$(CC) $(OBJ) -o $(NAME)
