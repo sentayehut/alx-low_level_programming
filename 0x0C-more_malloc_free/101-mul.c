@@ -1,118 +1,128 @@
 #include "main.h"
-#include <stdlib.h
+#include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
 /**
- * _putstr - prints a string
+ * _is_zero - determines if any number is zero
+ * @argv: argument vector.
  *
- * @str: the string to print
+ * Return: no return.
  */
 
-void	_putstr(char *str)
+void _is_zero(char *argv[])
 {
-	while (*str)
-		_putchar(*str++);
+	int i, isn1 = 1, isn2 = 1;
+
+	for (i = 0; argv[1][i]; i++)
+		if (argv[1][i] != '0')
+		{
+			isn1 = 0;
+			break;
+		}
+
+	for (i = 0; argv[2][i]; i++)
+		if (argv[2][i] != '0')
+		{
+			isn2 = 0;
+			break;
+		}
+
+	if (isn1 == 1 || isn2 == 1)
+	{
+		printf("0\n");
+		exit(0);
+	}
 }
 
-
 /**
- * exit_error - exits the program with error message
+ * _initialize_array - set memery to zero in a new array
+ * @ar: char array.
+ * @lar: length of the char array.
+ *
+ * Return: pointer of a char array.
  */
 
-void	exit_error(void)
-{
-	_putstr("Error\n");
-	exit(98);
-}
-
-/**
- * check_digits_len - check if string contains only digits
- *
- * @str: the string to test
- *
- * Return: length if only digits, exit if false
- */
-
-int		check_digits_len(char *str)
+char *_initialize_array(char *ar, int lar)
 {
 	int i = 0;
 
-	if (str != NULL)
-		while (str[i])
+	for (i = 0; i < lar; i++)
+		ar[i] = '0';
+	ar[lar] = '\0';
+	return (ar);
+}
+
+/**
+ * _checknum - determines length of the number
+ * and checks if number is in base 10.
+ * @argv: arguments vector.
+ * @n: row of the array.
+ *
+ * Return: length of the number.
+ */
+
+int _checknum(char *argv[], int n)
+{
+	int ln;
+
+	for (ln = 0; argv[n][ln]; ln++)
+		if (!isdigit(argv[n][ln]))
 		{
-			if (str[i] >= '0' && str[i] <= '9')
-				i++;
-			else
-				exit_error();
+			printf("Error\n");
+			exit(98);
 		}
-	return (i);
+
+	return (ln);
 }
 
 /**
- * init_memory - initialise len bytes of sizeof(int) and set them to 0
+ * main - Entry point.
+ * program that multiplies two positive numbers.
+ * @argc: number of arguments.
+ * @argv: arguments vector.
  *
- * @len: the length of the array
- *
- * Return: a pointer to the allocated memory
+ * Return: 0 - success.
  */
-
-int		*init_memory(int len)
+int main(int argc, char *argv[])
 {
-	int	*array, i = 0;
+	int ln1, ln2, lnout, add, addl, i, j, k, ca;
+	char *nout;
 
-	array = malloc(sizeof(int) * len);
-	if (!array)
-		exit_error();
-	while (i < len)
-		array[i++] = 0;
-	return (array);
-}
-
-/**
- * main - multiplies two positive numbers
- *
- * @argc: number of arguments
- * @argv: the arguments
- *
- * Return: 0
- */
-
-int		main(int argc, char **argv)
-{
-	int		*res, len1, len2, i1, i2, i = 0;
-	int		a = 0, b = 0, ret, tmp, i_res1, i_res2;
-
-	if (argc != 3 || argv[1] == NULL || argv[2] == NULL)
-		exit_error();
-	len1 = check_digits_len(argv[1]);
-	len2 = check_digits_len(argv[2]);
-	res = init_memory(len1 + len2);
-	i1 = len1 - 1;
-	i_res1 = 0;
-	while (i1 >= 0)
+	if (argc != 3)
+		printf("Error\n"), exit(98);
+	ln1 = _checknum(argv, 1), ln2 = _checknum(argv, 2);
+	_is_zero(argv), lnout = ln1 + ln2, nout = malloc(lnout + 1);
+	if (nout == NULL)
+		printf("Error\n"), exit(98);
+	nout = _initialize_array(nout, lnout);
+	k = lnout - 1, i = ln1 - 1, j = ln2 - 1, ca = addl = 0;
+	for (; k >= 0; k--, i--)
 	{
-		ret = 0;
-		a = argv[1][i1] - '0';
-		i2 = len2 - 1;
-		i_res2 = 0;
-		while (i2 >= 0)
+		if (i < 0)
 		{
-			b = argv[2][i2] - '0';
-			tmp = a * b + res[i_res1 + i_res2] + ret;
-			ret = tmp / 10;
-			res[i_res1 + i_res2] = tmp % 10;
-			i2--;
-			i_res2++;
+			if (addl > 0)
+			{
+				add = (nout[k] - '0') + addl;
+				if (add > 9)
+					nout[k - 1] = (add / 10) + '0';
+				nout[k] = (add % 10) + '0';
+			}
+			i = ln1 - 1, j--, addl = 0, ca++, k = lnout - (1 + ca);
 		}
-		if (ret > 0)
-			res[i_res1 + i_res2] += ret;
-		i1--;
-		i_res1++;
+		if (j < 0)
+		{
+			if (nout[0] != '0')
+				break;
+			lnout--;
+			free(nout), nout = malloc(lnout + 1), nout = _initialize_array(nout, lnout);
+			k = lnout - 1, i = ln1 - 1, j = ln2 - 1, ca = addl = 0;
+		}
+		if (j >= 0)
+		{
+			add = ((argv[1][i] - '0') * (argv[2][j] - '0')) + (nout[k] - '0') + addl;
+			addl = add / 10, nout[k] = (add % 10) + '0';
+		}
 	}
-	i = i_res1 + i_res2 - 1;
-	while (res[i] == 0 && i > 0)
-		i--;
-	while (i >= 0)
-		_putchar(res[i--] + '0');
-	_putchar('\n');
-	free(res);
+	printf("%s\n", nout);
 	return (0);
 }
