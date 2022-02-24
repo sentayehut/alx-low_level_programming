@@ -1,148 +1,118 @@
-
 #include "main.h"
-#include <stdlib.h>
+#include <stdlib.h
+/**
+ * _putstr - prints a string
+ *
+ * @str: the string to print
+ */
+
+void	_putstr(char *str)
+{
+	while (*str)
+		_putchar(*str++);
+}
+
 
 /**
- * _print - moves a string one place to the left and prints the string
- * @str: string to move
- * @l: size of string
- *
- * Return: void
+ * exit_error - exits the program with error message
  */
-void _print(char *str, int l)
+
+void	exit_error(void)
 {
-	int i, j;
-
-	i = j = 0;
-	while (i < l)
-	{
-		if (str[i] != '0')
-			j = 1;
-		if (j || i == l - 1)
-			_putchar(str[i]);
-		i++;
-	}
-
-	_putchar('\n');
-	free(str);
+	_putstr("Error\n");
+	exit(98);
 }
 
 /**
- * mul - multiplies a char with a string and places the answer into dest
- * @n: char to multiply
- * @num: string to multiply
- * @num_index: last non NULL index of num
- * @dest: destination of multiplication
- * @dest_index: highest index to start addition
+ * check_digits_len - check if string contains only digits
  *
- * Return: pointer to dest, or NULL on failure
- */
-char *mul(char n, char *num, int num_index, char *dest, int dest_index)
-{
-	int j, k, mul, mulrem, add, addrem;
-
-	mulrem = addrem = 0;
-	for (j = num_index, k = dest_index; j >= 0; j--, k--)
-	{
-		mul = (n - '0') * (num[j] - '0') + mulrem;
-		mulrem = mul / 10;
-		add = (dest[k] - '0') + (mul % 10) + addrem;
-		addrem = add / 10;
-		dest[k] = add % 10 + '0';
-	}
-	for (addrem += mulrem; k >= 0 && addrem; k--)
-	{
-		add = (dest[k] - '0') + addrem;
-		addrem = add / 10;
-		dest[k] = add % 10 + '0';
-	}
-	if (addrem)
-	{
-		return (NULL);
-	}
-	return (dest);
-}
-/**
- * check_for_digits - checks the arguments to ensure they are digits
- * @av: pointer to arguments
+ * @str: the string to test
  *
- * Return: 0 if digits, 1 if not
+ * Return: length if only digits, exit if false
  */
-int check_for_digits(char **av)
-{
-	int i, j;
 
-	for (i = 1; i < 3; i++)
-	{
-		for (j = 0; av[i][j]; j++)
+int		check_digits_len(char *str)
+{
+	int i = 0;
+
+	if (str != NULL)
+		while (str[i])
 		{
-			if (av[i][j] < '0' || av[i][j] > '9')
-				return (1);
+			if (str[i] >= '0' && str[i] <= '9')
+				i++;
+			else
+				exit_error();
 		}
-	}
-	return (0);
+	return (i);
 }
 
 /**
- * init - initializes a string
- * @str: sting to initialize
- * @l: length of strinf
+ * init_memory - initialise len bytes of sizeof(int) and set them to 0
  *
- * Return: void
+ * @len: the length of the array
+ *
+ * Return: a pointer to the allocated memory
  */
-void init(char *str, int l)
-{
-	int i;
 
-	for (i = 0; i < l; i++)
-		str[i] = '0';
-	str[i] = '\0';
+int		*init_memory(int len)
+{
+	int	*array, i = 0;
+
+	array = malloc(sizeof(int) * len);
+	if (!array)
+		exit_error();
+	while (i < len)
+		array[i++] = 0;
+	return (array);
 }
 
 /**
- * main - multiply two numbers
+ * main - multiplies two positive numbers
+ *
  * @argc: number of arguments
- * @argv: argument vector
+ * @argv: the arguments
  *
- * Return: zero, or exit status of 98 if failure
+ * Return: 0
  */
-int main(int argc, char *argv[])
-{
-	int l1, l2, ln, ti, i;
-	char *a;
-	char *t;
-	char e[] = "Error\n";
 
-	if (argc != 3 || check_for_digits(argv))
+int		main(int argc, char **argv)
+{
+	int		*res, len1, len2, i1, i2, i = 0;
+	int		a = 0, b = 0, ret, tmp, i_res1, i_res2;
+
+	if (argc != 3 || argv[1] == NULL || argv[2] == NULL)
+		exit_error();
+	len1 = check_digits_len(argv[1]);
+	len2 = check_digits_len(argv[2]);
+	res = init_memory(len1 + len2);
+	i1 = len1 - 1;
+	i_res1 = 0;
+	while (i1 >= 0)
 	{
-		for (ti = 0; e[ti]; ti++)
-			_putchar(e[ti]);
-		exit(98);
-	}
-	for (l1 = 0; argv[1][l1]; l1++)
-		;
-	for (l2 = 0; argv[2][l2]; l2++)
-		;
-	ln = l1 + l2 + 1;
-	a = malloc(ln * sizeof(char));
-	if (a == NULL)
-	{
-		for (ti = 0; e[ti]; ti++)
-			_putchar(e[ti]);
-		exit(98);
-	}
-	init(a, ln - 1);
-	for (ti = l2 - 1, i = 0; ti >= 0; ti--, i++)
-	{
-		t = mul(argv[2][ti], argv[1], l1 - 1, a, (ln - 2) - i);
-		if (t == NULL)
+		ret = 0;
+		a = argv[1][i1] - '0';
+		i2 = len2 - 1;
+		i_res2 = 0;
+		while (i2 >= 0)
 		{
-			for (ti = 0; e[ti]; ti++)
-				_putchar(e[ti]);
-			free(a);
-			exit(98);
+			b = argv[2][i2] - '0';
+			tmp = a * b + res[i_res1 + i_res2] + ret;
+			ret = tmp / 10;
+			res[i_res1 + i_res2] = tmp % 10;
+			i2--;
+			i_res2++;
 		}
+		if (ret > 0)
+			res[i_res1 + i_res2] += ret;
+		i1--;
+		i_res1++;
 	}
-	_print(a, ln - 1);
+	i = i_res1 + i_res2 - 1;
+	while (res[i] == 0 && i > 0)
+		i--;
+	while (i >= 0)
+		_putchar(res[i--] + '0');
+	_putchar('\n');
+	free(res);
 	return (0);
 }
